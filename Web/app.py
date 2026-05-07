@@ -3,10 +3,17 @@ import pandas as pd
 import plotly.express as px
 import matplotlib.pyplot as plt
 import base64
+import os
 
+# Get the directory where app.py is located
+base_path = os.path.dirname(__file__)
+image_path = os.path.join(base_path, "background.jpg")
+
+# Use image_path in your get_base64 function
+with open(image_path, "rb") as f:
 
 # ===================== PAGE CONFIG =====================
-st.set_page_config(
+ st.set_page_config(
     page_title="Instagram User Analysis",
     page_icon="📸",
     layout="wide"
