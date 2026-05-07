@@ -13,7 +13,7 @@ st.set_page_config(
 )
 
 # ===================== LOAD DATA =====================
-df = pd.read_excel(r"C:\Quang Dai\R\Dataset.xlsx")
+df = pd.read_excel("Dataset.xlsx")
 
 # ===================== SESSION STATE =====================
 if "clicked" not in st.session_state:
