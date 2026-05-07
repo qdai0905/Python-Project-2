@@ -3,7 +3,7 @@ import pandas as pd
 import plotly.express as px
 import matplotlib.pyplot as plt
 import base64
-
+import os
 
 # ===================== PAGE CONFIG =====================
 st.set_page_config(
@@ -150,7 +150,7 @@ if menu == "About our Dataset":
     col1, col2 = st.columns([1, 2])
 
     with col1:
-     st.image(r"C:\Users\daidi\OneDrive\Pictures\Screenshots\Screenshot 2026-05-06 194655.png", width=200)  
+     st.image("Screenshot 2026-05-06 194655.png", width=200)  
 
     with col2:
      st.subheader("Author Information")
