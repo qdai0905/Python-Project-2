@@ -346,17 +346,20 @@ In contrast, session lengths are more concentrated; the median session lasts abo
 
      st.subheader("Urban vs Rural Usage")
     # Dropdown menu
-     area_option = st.selectbox(
-     "Choose Area Type",
-     ["All", "Urban", "Rural", "Suburban"],
-     key="scatter_content")
+     options = ["Urban", "Rural", "Suburban"]
+     selected_areas = st.multiselect(
+     "Choose Area Type(s)",
+     options=options,
+     default=options, # Optional: starts with everything selected
+     key="scatter_content"
+)
 
-# Filter data based on dropdown
-     if area_option != "All":
-      area_df = filtered_df[
-        filtered_df["urban_rural"].str.lower() == area_option.lower()
-    ]
+# 2. Filter data based on the list of selections
+     if selected_areas:
+    # Use .isin() to check if the value exists in the selected list
+      area_df = filtered_df[filtered_df["urban_rural"].isin(selected_areas)]
      else:
+    # Fallback if the user clears all selections
       area_df = filtered_df
      fig = px.bar(
         area_df.groupby("urban_rural")["daily_active_minutes_instagram"].mean().reset_index(),
@@ -465,17 +468,17 @@ As posting frequency rises further, engagement levels drop significantly. By the
      st.markdown('<hr style="border: none; border-top: 3px solid black;">', unsafe_allow_html=True)
 
      st.subheader("Content Type Preference")
-     # Dropdown menu
-     engage_option2 = st.selectbox(
-     "Choose Content Type",
-     ["All", "Mixed", "Photos", "Reels","Videos","Stories","Live"],
-     key="pie_content")
+     content_options = ["Mixed", "Photos", "Reels", "Videos", "Stories", "Live"]
+     selected_content = st.multiselect(
+     "Choose Content Type(s)",
+     options=content_options,
+     default=content_options, 
+     key="pie_content"
+)
 
-# Filter data based on dropdown
-     if engage_option2 != "All":
-      engage_df = filtered_df[
-        filtered_df["content_type_preference"].str.lower() == engage_option2.lower()
-    ]
+# 2. Filter data
+     if selected_content:
+      engage_df = filtered_df[filtered_df["content_type_preference"].isin(selected_content)]
      else:
       engage_df = filtered_df
      fig = px.pie(engage_df, names="content_type_preference")
