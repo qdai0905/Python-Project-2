@@ -138,7 +138,7 @@ filtered_df = df[
 # ===================== NAVIGATION =====================
 menu = st.sidebar.radio(
     "Navigation",
-    ["About our Dataset","About Instagram","Analysis"]
+    ["About our Dataset","About Instagram","Analysis","About our Team"]
 )
 
 # ===================== DATA OVERVIEW =====================
@@ -150,7 +150,7 @@ if menu == "About our Dataset":
     col1, col2 = st.columns([1, 2])
 
     with col1:
-     st.image("Screenshot 2026-05-06 194655.png", width=200)  
+     st.image("author.png", width=200)  
 
     with col2:
      st.subheader("Author Information")
@@ -159,36 +159,50 @@ if menu == "About our Dataset":
     - **Role:** Student at IIT Guwahati  
     - **Native place:** Delhi, Delhi, India    
     """)
-    st.write("""
+    st.markdown("""<div style='text-align: justify;'>
     This dataset was created to study Instagram user behavior, engagement patterns,
     and the relationship between social media usage and lifestyle factors.
-    """)
+                <div/>
+    """,
+    unsafe_allow_html=True)
     # ---------------- WHY ----------------
     st.header("1. Purpose of the Analysis")
-    st.write("""
+    st.markdown("""<div style='text-align: justify;'>
     The reason why this dataset is chosen is that it offers a complex perspective on the use of social media incorporating demographic information with more specific behavioral indicators. However, in contrast to simpler data, it is capable of productive subgroup analysis, e.g., comparing the lifestyle of urban and rural users or monitoring the changes in the level of engagement in accordance with age. This information allows a profound study of the effect of lifestyle and the environment on digital consumption, which is why it is a great source to study the factors that influence user retention and activity on social networks of the modern generation.
-    """)
+             <div/>
+    """,
+    unsafe_allow_html=True)
 
     # ---------------- WHAT ----------------
     st.header("2. What We Investigate")
-    st.write("""
+    st.markdown("""<div style='text-align: justify;'>
     The main aim of such analysis is to explain the complicated connection between the offline life of a user and online conduct. By having data that traces both the major demographic levels and feature-based interactions, we will strive to go beyond the merely usage-related statistics and delve into the psychological and social trend. Through the analysis of the navigation of various types of users on the platform, it will be possible to define the factors that have the strongest impact on the formation of digital habits and the sense of well-being.
              The analysis focuses on:
+                 <div/>
+    """,
+    unsafe_allow_html=True)
+    st.write("""
     - User engagement patterns
     - Time spent on Instagram
     - Differences across demographic groups (age, gender, income)
     - Relationships between lifestyle factors (diet, stress)
-    """)
+             """)
+                
 
     # ---------------- HOW ----------------
     st.header("3. How We Investigate")
-    st.write("""
+    st.markdown("""<div style='text-align: justify;'>
     First, we together choose our favorite topic. Then, we will find the dataset online, if the dataset is too little or the usability is low, we will try to choose another one. After we have a suitable dataset, we will investigate the data to see which categories we should use to draw plots. By asking questions related to this topic, we can find the appropriate items. Before drawing the plot, we have to learn and read the book to know how to draw plots on R Studio, which is the most important stage in this project. After completing the initial analysis, we will also clean the dataset by removing missing or inconsistent values to ensure accuracy. Then, we will choose suitable visualization types such as bar charts, line charts, or scatter plots depending on the data characteristics. We will also customize the plots by adjusting colors, labels, and themes to make them clearer and more visually appealing. Lastly, we will draw the plots of those categories and write a description of the trend. 
              To conclude, we use data visualization and aggregation techniques to explore patterns:
+                 <div/>
+    """,
+    unsafe_allow_html=True)
+    st.write("""
     - Grouping and comparing categories
-    - Visualizing distributions (histograms, box plots)
-    - Exploring relationships (scatter plots, heatmaps)
-    """)
+    - Visualizing distributions (histograms, box plots,...)
+    - Exploring relationships (scatter plots, heatmaps,...)
+             """)
+                
 
     # ---------------- VARIABLES ----------------
     st.header("4. Description of Variables")
@@ -258,7 +272,6 @@ if menu == "About our Dataset":
 if menu == "Analysis":
     tab0, tab1, tab2, tab3, tab4 = st.tabs(["**📸 Overview**","**👤 User Behavior**","**🔥 Engagement**","**🎥 Content Insights**","**🥗 Health & Lifestyle**"])
     with tab0:
-     st.markdown('<hr style="border: none; border-top: 3px solid black;">', unsafe_allow_html=True)
      col1, col2, col3 = st.columns(3)
 
      col1.metric("Total Analyzed Users", len(filtered_df))
@@ -315,8 +328,6 @@ Combined, these minority groups represent less than one-tenth of the overall gen
 
 # ===================== USER BEHAVIOR =====================
     with tab1:
-     st.markdown('<hr style="border: none; border-top: 3px solid black;">', unsafe_allow_html=True)
-
      col1, col2 = st.columns(2)
 
      with col1:
@@ -365,13 +376,16 @@ In contrast, session lengths are more concentrated; the median session lasts abo
         area_df.groupby("urban_rural")["daily_active_minutes_instagram"].mean().reset_index(),
         x="urban_rural",
         y="daily_active_minutes_instagram",
-        color="urban_rural"
+        color="urban_rural",
+        text_auto=True
+    )
+     fig.update_traces(
+        textposition="inside"
     )
      st.plotly_chart(fig, width='stretch')
      st.markdown(
      "<p style='font-size:12px;'><b>Daily Instagram Usage Analysis by Residential Area of All Users</b></p>",
-     unsafe_allow_html=True
-)
+     unsafe_allow_html=True)
      st.markdown(
        """
        <div style='text-align: justify;'>
@@ -386,8 +400,6 @@ Urban users account for the lowest daily usage, though at approximately 184 minu
 
 # ===================== ENGAGEMENT =====================
     with tab2:
-     st.markdown('<hr style="border: none; border-top: 3px solid black;">', unsafe_allow_html=True)
-
      st.subheader("Followers vs Engagement Score")
     # Dropdown menu
      engage_option = st.selectbox(
@@ -465,8 +477,6 @@ As posting frequency rises further, engagement levels drop significantly. By the
 
 # ===================== CONTENT =====================
     with tab3:
-     st.markdown('<hr style="border: none; border-top: 3px solid black;">', unsafe_allow_html=True)
-
      st.subheader("Content Type Preference")
      content_options = ["Mixed", "Photos", "Reels", "Videos", "Stories", "Live"]
      selected_content = st.multiselect(
@@ -548,8 +558,6 @@ Regarding specific app components, the Feed is the dominant feature, with a medi
 
 # ===================== HEALTH =====================
     with tab4:
-     st.markdown('<hr style="border: none; border-top: 3px solid black;">', unsafe_allow_html=True)
-
      st.subheader("Diet Quality by Gender")
     
      counts = filtered_df.groupby(['Gender', 'diet_quality']).size().reset_index(name='count')
@@ -705,10 +713,15 @@ elif menu == "About Instagram":
             Over time, Instagram expanded its ecosystem by introducing:
 
             • Stories (2016)
+             
             • Reels (2020)
+             
             • Shopping features
+             
             • Creator tools
+             
             • AI-based recommendations
+             
             """,
             unsafe_allow_html=True)
     st.divider()
@@ -794,6 +807,231 @@ elif menu == "About Instagram":
         • The majority of Instagram users are under 35 years old.<br>
         • Businesses widely use Instagram for digital marketing and branding.<br>
         • Visual content generally receives higher engagement than plain text.
+
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+# ===================== ABOUT OUR TEAM =====================
+elif menu == "About our Team":
+
+    st.title("👥 About Our Team")
+    st.markdown(
+        '<hr style="border: none; border-top: 3px solid black;">',
+        unsafe_allow_html=True
+    )
+
+    # ================= SCHOOL INTRODUCTION =================
+    st.header("🏫 Our School - Vietnamese German University")
+
+    col1, col2 = st.columns([1.2, 1])
+
+    with col1:
+        st.markdown(
+            """
+            <div style='text-align: justify; font-size:16px; line-height:1.8;'>
+
+            <b>Vietnamese-German University (VGU)</b> is an international public university
+            located in Binh Duong Province, Vietnam. The university was established through
+            the cooperation between the Vietnamese and German governments.
+
+            VGU focuses on high-quality education, research, innovation, and international
+            learning environments. Students at VGU study in a modern academic environment
+            with strong connections to German universities and industries.
+
+            Our team is proud to study and conduct this project at VGU.
+
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+    with col2:
+        st.image(
+            "https://www.twog-architecture.com/Data/Sites/1/Product/51/vgu-2-location.jpg",
+            width='stretch'
+        )
+
+    st.divider()
+
+    # ================= TEACHER SECTION =================
+    st.header("👨‍🏫 Our Lecturer")
+
+    teacher_col1, teacher_col2 = st.columns([1, 2])
+
+    with teacher_col1:
+        st.image("teacher.png", width=220)
+
+    with teacher_col2:
+        st.subheader("Dr. Do Duc Tan")
+        st.markdown(
+           """
+           <div style='text-align: justify; font-size:15px; line-height:1.8;'>
+           • Academic Career: PhD degree from The University of Auckland, New Zealand, in 2016.
+             
+           • Field of study is Mathematical Analysis.
+           <div/>
+           """,
+           unsafe_allow_html=True
+        )
+
+        st.markdown(
+            """
+            <div style='text-align: justify; font-size:15px; line-height:1.8;'>
+
+            Our teacher provided valuable guidance throughout this project,
+            especially in data visualization, data interpretation, and presentation
+            techniques. His support helped us improve both our technical and
+            analytical skills.
+
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+    st.divider()
+
+    # ================= TEAM MEMBERS =================
+    # ================= CSS =================
+    st.markdown("""
+<style>
+
+/* TEAM IMAGE */
+[data-testid="stImage"] img {
+    width: 100%;
+    height: 250px !important;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+/* TEAM NAME */
+.team-name {
+    font-size: 35px;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    text-align: center
+}
+
+</style>
+""", unsafe_allow_html=True)
+    
+    st.header("🤝 Team Members")
+
+    col1, col2, col3 = st.columns(3)
+
+    # ---------- MEMBER 1 ----------
+    with col1:
+        st.image("member1.jpeg", width='stretch')
+        st.markdown(
+        '<p class="team-name">Dinh Viet Quang Dai</p>',
+        unsafe_allow_html=True)
+
+        st.markdown(
+            """
+            - Role: Team Leader & Data Visualization & Coding
+            - Responsibilities:
+                - Built Streamlit website
+                - Created charts and layouts
+                - Compiled information
+
+            Interested in sports, english bulldogs and numbers.
+            """
+        )
+
+    # ---------- MEMBER 2 ----------
+    with col2:
+        st.image("member2.jpeg", width='stretch')
+        st.markdown(
+        '<p class="team-name">Phung Thi Khanh Giang</p>',
+        unsafe_allow_html=True)
+
+        st.markdown(
+            """
+            - Role: Website Design & Content Writing
+            - Responsibilities:
+                - Wrote analytical descriptions
+                - Designed the website 
+                - Wrote Instagram descriptions
+
+            Interested in spiritual things, knowledge in overall, food, culture.
+            """
+        )
+            # ---------- MEMBER 3 ----------
+    with col3:
+        st.image("member3.png", width='stretch')
+        st.markdown(
+        '<p class="team-name">Dang Thai Thuy Linh</p>',
+        unsafe_allow_html=True)
+
+        st.markdown(
+            """
+            - Role: Website Design & Content Writing
+            - Responsibilities:
+                - Wrote Instagram descriptions
+                - Wrote analytical descriptions
+                - Designed the website
+
+            Interested in eating, pink, and sleeping.
+            """
+        )
+
+    # ================= SECOND ROW =================
+    space1, col4, col5, space2 = st.columns([0.5, 1, 1, 0.5])
+    with col4:
+        st.image("member4.jpeg", width='stretch')
+        st.markdown(
+        '<p class="team-name">Dang Thanh Ha</p>',
+        unsafe_allow_html=True)
+
+        st.markdown(
+            """
+            - Role: Testing & Content Writing
+            - Responsibilities:
+                - Wrote analytical descriptions
+                - Checked data accuracy
+                - Researched about the author
+
+            Interested in volleyball and video games.
+            """
+        )
+
+    with col5:
+        st.image("member5.jpeg", width='stretch')
+        st.markdown(
+        '<p class="team-name">Pham Xuan Cong Huy</p>',
+        unsafe_allow_html=True)
+
+        st.markdown(
+            """
+            - Role: Website Design & Content Writing
+            - Responsibilities:
+                - Wrote analytical descriptions
+                - Designed the website
+                - Wrote team description    
+
+            Interested in checking google maps and jogging.
+            """
+        )
+    st.divider()
+
+    # ================= TEAM MESSAGE =================
+    st.header("💬 Our Team Message")
+
+    st.markdown(
+        """
+        <div style='text-align: justify; font-size:16px; line-height:1.8;'>
+
+        Through this project, our team learned how to apply data analysis,
+        visualization, research information and coding techniques.
+
+        We hope this dashboard helps users better understand Instagram usage patterns
+        and demonstrates how data can reveal meaningful behavioral insights.
+
+        Thank you for visiting our project website!
 
         </div>
         """,
