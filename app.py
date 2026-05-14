@@ -275,7 +275,7 @@ if menu == "Analysis":
      col1, col2, col3 = st.columns(3)
 
      col1.metric("Total Analyzed Users", len(filtered_df))
-     col2.metric("Avg Engagement", round(filtered_df["user_engagement_score"].mean(), 2))
+     col2.metric("Avg Engagement Score", round(filtered_df["user_engagement_score"].mean(), 2))
      col3.metric("Avg Daily Time", round(filtered_df["daily_active_minutes_instagram"].mean(), 1))
 
      st.subheader("Age Distribution")
@@ -393,7 +393,8 @@ Overall, it is evident that while the total time spent on the platform per day i
     )
      fig.update_layout(
       plot_bgcolor="rgba(0,0,0,0)",
-      paper_bgcolor="rgba(0,0,0,0)")
+      paper_bgcolor="rgba(0,0,0,0)",
+      showlegend=False)
      st.plotly_chart(fig, width='stretch')
      st.markdown(
      "<p style='font-size:12px;'><b>Daily Instagram Usage Analysis by Residential Area of All Users</b></p>",
@@ -551,7 +552,8 @@ Looking at the figures in detail, the chart highlights many user interests and s
      fig = px.box(df_melt, x="Feature", y="Usage", color="Feature")
      fig.update_layout(
       plot_bgcolor="rgba(0,0,0,0)",
-      paper_bgcolor="rgba(0,0,0,0)")
+      paper_bgcolor="rgba(0,0,0,0)",
+      showlegend=False)
      st.plotly_chart(fig, width="stretch")
      st.markdown(
      "<p style='font-size:12px;'><b>Feature Usage Analysis of All Users</b></p>",
