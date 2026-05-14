@@ -279,8 +279,12 @@ if menu == "Analysis":
      col3.metric("Avg Daily Time", round(filtered_df["daily_active_minutes_instagram"].mean(), 1))
 
      st.subheader("Age Distribution")
+     bins = [0, 18, 25, 35, 45, 60, 100]
+     labels = ['<18', '18-25', '26-35', '36-45', '46-60', '60+']
 
-     fig = px.histogram(filtered_df, x="age", nbins=20, text_auto=True)
+     filtered_df["age_group"] = pd.cut(filtered_df["age"], bins=bins, labels=labels)
+     age_counts = (filtered_df["age_group"].value_counts().sort_values())
+     fig=px.bar(x=age_counts.index,y=age_counts.values,text_auto=True)
      fig.update_traces(
         marker_line_color="white",
         marker_line_width=2,
@@ -289,6 +293,7 @@ if menu == "Analysis":
      fig.update_layout(
       plot_bgcolor="rgba(0,0,0,0)",
       paper_bgcolor="rgba(0,0,0,0)")
+     fig.update_layout(xaxis_title="Age Group",yaxis_title="Count")
      
      st.plotly_chart(fig, width="stretch")
      st.markdown(
@@ -298,11 +303,13 @@ if menu == "Analysis":
      st.markdown(
        """
        <div style='text-align: justify;'>
-       The histogram illustrates the age distribution of a user group, ranging from approximately 12 to 67 years old. Overall, the data shows a fluctuating pattern with the highest concentration of users in the middle-aged and young-adult.
+       The bar chart illustrates the population distribution across six different age categories.
 
-In detail, the most significant peak is seen in the 32–37 age group, which has 24 users. This is closely followed by the 40–45 and 52–57 age group, both having around 23 users. Moreover, there is a notable drop in the 27–32 age range, where the number of users falls to only 10, the lowest point in the first half of the graph. As users get older, the figures generally decline, with the 57–62 category recording only 11 users before a slight rise to 13 in the final bracket.
+Overall, the chart shows a clear upward trend where the number of individuals increases with age, peaking in the 46-60 demographic. In contrast, the 60+ group represents the smallest segment of the population.
 
-Overall, the distribution indicates that most users are concentrated between their early 30s and mid-50s, while younger and older age groups are slightly less represented. This suggests that the platform or dataset tends to attract a larger proportion of middle-aged users compared with teenagers or seniors.
+The 46-60 age group is the most numerous, with 59 individuals. This is followed by a steady decline in younger cohorts: the 36-45 group has 43 people, while the 26-35 and 18-25 brackets count 35 and 25 respectively.
+
+The two smallest groups are the youngest and the oldest. Those under 18 number 21, while the 60+ category recorded the lowest figure at just 17. Interestingly, the most populous group (46-60) is more than three times larger than the least populous one (60+).
         <div/>
         """,
         unsafe_allow_html=True)
@@ -310,6 +317,9 @@ Overall, the distribution indicates that most users are concentrated between the
      st.subheader("Gender Distribution")
      fig = px.pie(filtered_df, names="Gender")
      st.plotly_chart(fig, width="stretch")
+     fig.update_layout(
+      plot_bgcolor="rgba(0,0,0,0)",
+      paper_bgcolor="rgba(0,0,0,0)")
      st.markdown(
      "<p style='font-size:12px;'><b>Gender Distribution Analysis of All Users</b></p>",
      unsafe_allow_html=True
@@ -336,11 +346,17 @@ Combined, these minority groups represent less than one-tenth of the overall gen
      with col1:
         st.subheader("Daily Usage")
         fig = px.box(filtered_df, y="daily_active_minutes_instagram")
+        fig.update_layout(
+      plot_bgcolor="rgba(0,0,0,0)",
+      paper_bgcolor="rgba(0,0,0,0)")
         st.plotly_chart(fig, width="stretch")
 
      with col2:
         st.subheader("Session Length")
         fig = px.box(filtered_df, y="average_session_length_minutes")
+        fig.update_layout(
+      plot_bgcolor="rgba(0,0,0,0)",
+      paper_bgcolor="rgba(0,0,0,0)")
         st.plotly_chart(fig, width="stretch")
      st.markdown(
      "<p style='font-size:12px;'><b>Daily Usage & Session Length Analysis of All Users</b></p>",
@@ -385,6 +401,9 @@ In contrast, session lengths are more concentrated; the median session lasts abo
      fig.update_traces(
         textposition="inside"
     )
+     fig.update_layout(
+      plot_bgcolor="rgba(0,0,0,0)",
+      paper_bgcolor="rgba(0,0,0,0)")
      st.plotly_chart(fig, width='stretch')
      st.markdown(
      "<p style='font-size:12px;'><b>Daily Instagram Usage Analysis by Residential Area of All Users</b></p>",
@@ -422,8 +441,13 @@ Urban users account for the lowest daily usage, though at approximately 184 minu
         x="Followers count",
         y="user_engagement_score",
         color="content_type_preference",
-        size="posts_created_per_week"
+        size="posts_created_per_week",
+        opacity=0.3,
+        size_max=40
     )
+     fig.update_layout(
+      plot_bgcolor="rgba(0,0,0,0)",
+      paper_bgcolor="rgba(0,0,0,0)")
      st.plotly_chart(fig, width="stretch")
      st.markdown(
      "<p style='font-size:12px;'><b>Followers vs Engagement Score Analysis of All Users</b></p>",
@@ -432,11 +456,13 @@ Urban users account for the lowest daily usage, though at approximately 184 minu
      st.markdown(
        """
        <div style='text-align: justify;'>
-       The scatter chart illustrates the relationship between follower counts and user engagement scores on a social media platform, categorized by content preference. Overall, there is a clear concentration of users with fewer than 4,000 followers, and while engagement scores vary widely for this group, they generally decrease as follower counts increase.
+       The bubble chart illustrates the relationship between follower counts and user engagement scores on a social media platform, categorized by content preference. Overall, there is a clear concentration of users with fewer than 4,000 followers, and while engagement scores vary widely for this group, they generally decrease as follower counts increase.
 
 Most users are clustered at the lower end of the follower scale (0 to 2,000), where engagement scores range significantly from nearly 0 to 10. Specifically, users who prefer "Live" and "Photos" content occasionally achieve the highest engagement scores, peaking at approximately 11.5 and 9.5 respectively within the 2k-4k follower range.
 
-In contrast, users with larger followings, exceeding 8,000, tend to exhibit much lower and more stable engagement scores, rarely surpassing 2.0. Additionally, the size of the bubbles, representing the volume of content, appears larger among users with high engagement but fewer followers. Ultimately, the data suggests that having a massive follower base does not guarantee high engagement, as the most interactive accounts are often those with smaller, more niche audiences.
+In contrast, users with larger followings, exceeding 8,000, tend to exhibit much lower and more stable engagement scores, rarely surpassing 2.0. Additionally, the size of the bubbles, representing the volume of content, appears larger among users with high engagement but fewer followers. 
+
+Ultimately, the data suggests that having a massive follower base does not guarantee high engagement, as the most interactive accounts are often those with smaller, more niche audiences.
         <div/>
         """,
         unsafe_allow_html=True)
@@ -454,12 +480,16 @@ In contrast, users with larger followings, exceeding 8,000, tend to exhibit much
     ]
      else:
       engage_df = filtered_df
-     fig = px.bar(
-        engage_df,
-        x="posts_created_per_week",
-        y="user_engagement_score",
-        color="content_type_preference"
-    )
+     avg_df = engage_df.groupby("posts_created_per_week",as_index=False)["user_engagement_score"].mean()
+
+     fig = px.line(avg_df,
+     x="posts_created_per_week",
+     y="user_engagement_score",
+     markers=True)
+     fig.update_layout(
+     plot_bgcolor="rgba(0,0,0,0)",
+     paper_bgcolor="rgba(0,0,0,0)")
+
      st.plotly_chart(fig, width='stretch')
      st.markdown(
      "<p style='font-size:12px;'><b>User Engagement by Posting Frequency Analysis of All Users</b></p>",
@@ -468,11 +498,13 @@ In contrast, users with larger followings, exceeding 8,000, tend to exhibit much
      st.markdown(
        """
        <div style='text-align: justify;'>
-       The stacked bar chart compares total user engagement scores based on the number of posts created per week, segmented by preferred content types. Overall, engagement peaks at a moderate posting frequency of two to three times per week and steadily declines as the number of weekly posts increases beyond that point.
+       The line chart shows the relationship between the number of posts created per week and user engagement scores across different content types.
 
-The highest total engagement is recorded at 2 posts per week, reaching a cumulative score of nearly 70. At this level, "Photos" and "Mixed" content contribute the largest portions to the total. This is followed closely by the 3-post-per-week category, which sees a slightly lower total of approximately 55, though it maintains a diverse mix of content types including "Reels" and "Stories."
+Overall, engagement is highest when users post moderately, especially two to three times per week. In contrast, engagement declines as posting frequency increases beyond this point.
 
-As posting frequency rises further, engagement levels drop significantly. By the time users reach 10 or more posts per week, total engagement scores fall below 20 and continue to diminish toward negligible levels at 16 posts. Notably, "Live" content (indicated in green) maintains a consistent presence across low-to-mid posting frequencies but almost disappears in the high-frequency brackets. In summary, a "less is more" trend is evident, where posting more than three times weekly correlates with a sharp reduction in total engagement.
+Users posting twice weekly achieve the highest engagement score, mainly driven by Photos and Mixed content. Engagement remains relatively high at three posts per week but gradually decreases afterward. By contrast, users posting more than ten times weekly receive very low engagement.
+
+In summary, the chart suggests that moderate posting frequency leads to higher user engagement than excessive posting.
         <div/>
         """,
         unsafe_allow_html=True)
@@ -495,6 +527,9 @@ As posting frequency rises further, engagement levels drop significantly. By the
      else:
       engage_df = filtered_df
      fig = px.pie(engage_df, names="content_type_preference")
+     fig.update_layout(
+      plot_bgcolor="rgba(0,0,0,0)",
+      paper_bgcolor="rgba(0,0,0,0)")
      st.plotly_chart(fig, width="stretch")
      st.markdown(
      "<p style='font-size:12px;'><b>Content Types Preference Analysis of All Users</b></p>",
@@ -540,6 +575,9 @@ To conclude, the chart highlights many user interests and suggests that content 
       df_melt = df_melt[
         df_melt["Feature"] == engage_option3]
      fig = px.box(df_melt, x="Feature", y="Usage", color="Feature")
+     fig.update_layout(
+      plot_bgcolor="rgba(0,0,0,0)",
+      paper_bgcolor="rgba(0,0,0,0)")
      st.plotly_chart(fig, width="stretch")
      st.markdown(
      "<p style='font-size:12px;'><b>Feature Usage Analysis of All Users</b></p>",
@@ -584,7 +622,9 @@ Regarding specific app components, the Feed is the dominant feature, with a medi
 # Clean look (no gridlines)
      fig.update_xaxes(showgrid=False)
      fig.update_yaxes(showgrid=False)
-    
+     fig.update_layout(
+      plot_bgcolor="rgba(0,0,0,0)",
+      paper_bgcolor="rgba(0,0,0,0)")
      st.plotly_chart(fig, width='stretch')
      st.markdown(
      "<p style='font-size:12px;'><b>Diet Quality Analysis of All Users</b></p>",
@@ -625,6 +665,9 @@ To conclude, the chart indicates that average diet quality is the most common ac
         color_continuous_scale=[
             "#FDEDEC", "#F5B7B1", "#EC7063", "#C0392B"
         ])
+      fig.update_layout(
+      plot_bgcolor="rgba(0,0,0,0)",
+      paper_bgcolor="rgba(0,0,0,0)")
 
       fig.update_layout(
         title_x=0.5,
