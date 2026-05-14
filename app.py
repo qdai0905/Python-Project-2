@@ -286,7 +286,10 @@ if menu == "Analysis":
         marker_line_width=2,
         textposition="outside"
     )
-
+     fig.update_layout(
+      plot_bgcolor="rgba(0,0,0,0)",
+      paper_bgcolor="rgba(0,0,0,0)")
+     
      st.plotly_chart(fig, width="stretch")
      st.markdown(
      "<p style='font-size:12px;'><b>Age Distribution Analysis of All Users</b></p>",
@@ -962,7 +965,7 @@ elif menu == "About our Team":
         )
             # ---------- MEMBER 3 ----------
     with col3:
-        st.image("member3.png", width='stretch')
+        st.image("member3.jpeg", width='stretch')
         st.markdown(
         '<p class="team-name">Dang Thai Thuy Linh</p>',
         unsafe_allow_html=True)
