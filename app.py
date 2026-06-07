@@ -108,38 +108,31 @@ set_dashboard_bg()
 
 # ===================== SIDEBAR =====================
 st.sidebar.title("📊 Instagram Dashboard")
-
-selected_gender = st.sidebar.multiselect(
-    "Gender",
-    df["Gender"].unique(),
-    default=df["Gender"].unique()
-)
-
-age_range = st.sidebar.slider(
-    "Age Range",
-    int(df["age"].min()),
-    int(df["age"].max()),
-    (int(df["age"].min()), int(df["age"].max()))
-)
-
-selected_income = st.sidebar.multiselect(
-    "Income Level",
-    df["income_level"].unique(),
-    default=df["income_level"].unique()
-)
-
-# ===================== FILTER DATA =====================
-filtered_df = df[
-    (df["Gender"].isin(selected_gender)) &
-    (df["age"].between(age_range[0], age_range[1])) &
-    (df["income_level"].isin(selected_income))
-]
-
-# ===================== NAVIGATION =====================
 menu = st.sidebar.radio(
     "Navigation",
     ["About our Dataset","About Instagram","Analysis","About our Team"]
 )
+
+if menu =="Analysis":
+   selected_gender = st.sidebar.multiselect(
+    "Gender",
+    df["Gender"].unique(),
+    default=df["Gender"].unique())
+   age_range = st.sidebar.slider(
+    "Age Range",
+    int(df["age"].min()),
+    int(df["age"].max()),
+    (int(df["age"].min()), int(df["age"].max())))
+   selected_income = st.sidebar.multiselect(
+    "Income Level",
+    df["income_level"].unique(),
+    default=df["income_level"].unique())
+   filtered_df = df[
+    (df["Gender"].isin(selected_gender)) &
+    (df["age"].between(age_range[0], age_range[1])) &
+    (df["income_level"].isin(selected_income))]
+else:
+   filtered_df=df
 
 # ===================== DATA OVERVIEW =====================
 if menu == "About our Dataset":
